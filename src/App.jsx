@@ -29,6 +29,7 @@ let selectedWord = words[Math.floor(Math.random() * words.length)]
 export default function App() {
 
   const [correctLetters, setCorrectLetters] = useState([])
+  const [wrongLetters, setWrongLetters] = useState([])
   
   useEffect(() => {
 
@@ -38,6 +39,8 @@ export default function App() {
         const letter = key.toLowerCase()
         if (selectedWord.includes(letter)) {
           setCorrectLetters(currentLetters => [...currentLetters, letter])
+        } else {
+          setWrongLetters(currentLetters => [...currentLetters, letter])
         }
       }
     }
@@ -51,7 +54,7 @@ export default function App() {
     <>
       <Header />
       <div className='game-container'>
-        <Figure />
+        <Figure wrongLetters={wrongLetters}/>
         <WrongLetters />
         <Word selectedWord={selectedWord} correctLetters={correctLetters}/>
       </div>
