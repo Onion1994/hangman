@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import './App.css';
 import Figure from './components/Figure';
 import Header from './components/Header';
@@ -27,13 +28,32 @@ let selectedWord = words[Math.floor(Math.random() * words.length)]
 
 export default function App() {
 
+  const [correctLetters, setCorrectLetters] = useState([])
+  
+  useEffect(() => {
+
+    function handleKeyDown(event) {
+      const { key, keyCode } = event
+      if (keyCode >= 65 && keyCode <= 90) {
+        const letter = key.toLowerCase()
+        if (selectedWord.includes(letter)) {
+          setCorrectLetters(currentLetters => [...currentLetters, letter])
+        }
+      }
+    }
+    
+    window.addEventListener('keydown', handleKeyDown)
+    
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [correctLetters])
+
   return (
     <>
       <Header />
       <div className='game-container'>
         <Figure />
         <WrongLetters />
-        <Word selectedWord={selectedWord}/>
+        <Word selectedWord={selectedWord} correctLetters={correctLetters}/>
       </div>
     </>
   );
