@@ -29,5 +29,17 @@
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
   }
+
+  .figure-container {
+    fill: transparent;
+    stroke: #fff;
+    stroke-linecap: round;
+  }
   
-  
+  .word {
+    display: flex;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+  }

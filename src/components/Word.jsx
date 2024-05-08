@@ -1,5 +1,7 @@
-export default function Word() {
+export default function Word({ selectedWord }) {
     return (
-        <div class="word" id="word"></div>
+        <div class="word" id="word">
+            <p>{selectedWord}</p>
+        </div>
     )
 }
