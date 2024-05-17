@@ -4,6 +4,7 @@ import Figure from './components/Figure';
 import Header from './components/Header';
 import Word from './components/Word';
 import WrongLetters from './components/WrongLetters';
+import SameLetter from './components/SameLetter';
 
 const words = [
   "damask", "prognosticate", "acquisitive", "zeitgeber", "gratuitous", "signet", "absolve", "fissile", "MacGuffin", "callous",
@@ -30,6 +31,7 @@ export default function App() {
 
   const [correctLetters, setCorrectLetters] = useState([])
   const [wrongLetters, setWrongLetters] = useState([])
+  const [showNotification, setShowNotification] = useState(false)
   
   useEffect(() => {
 
@@ -41,6 +43,11 @@ export default function App() {
           setCorrectLetters(currentLetters => [...currentLetters, letter])
         } else if (!wrongLetters.includes(letter)) {
           setWrongLetters(currentLetters => [...currentLetters, letter])
+        }
+        if (correctLetters.includes(letter) || wrongLetters.includes(letter)) {
+          setShowNotification(true)
+        } else {
+          setShowNotification(false)
         }
       }
     }
@@ -57,6 +64,7 @@ export default function App() {
         <Figure wrongLetters={wrongLetters}/>
         <WrongLetters wrongLetters={wrongLetters}/>
         <Word selectedWord={selectedWord} correctLetters={correctLetters}/>
+        <SameLetter showNotification={showNotification}/>
       </div>
     </>
   );
