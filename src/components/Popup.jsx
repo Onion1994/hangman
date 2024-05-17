@@ -1,9 +1,10 @@
-export default function Popup() {
+export default function Popup({isWinner, isGameOver, onPlayAgain}) {
     return (
-            <div>
-                {/* <h2 id="final-message"></h2>
-                <h3 id="final-message-reveal-word"></h3> */}
-                <button>Play Again</button>
+        <div className={`popup-container ${isGameOver || isWinner ? 'show' : ''}`}>
+            <div className="popup">
+                <h2>{isGameOver ? 'Game Over. You lost.' : 'Congratulations! You won!'}</h2>
+                <button onClick={onPlayAgain}>Play Again</button>
+                </div>
             </div>
     )
 }

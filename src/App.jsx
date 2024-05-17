@@ -5,6 +5,7 @@ import Header from './components/Header';
 import Word from './components/Word';
 import WrongLetters from './components/WrongLetters';
 import SameLetter from './components/SameLetter';
+import Popup from './components/Popup';
 
 const words = [
   "damask", "prognosticate", "acquisitive", "zeitgeber", "gratuitous", "signet", "absolve", "fissile", "MacGuffin", "callous",
@@ -25,17 +26,28 @@ const words = [
   "shill", "irascible", "pandemonium", "werewolf"
 ];
 
-let selectedWord = words[Math.floor(Math.random() * words.length)]
-
 export default function App() {
 
   const [correctLetters, setCorrectLetters] = useState([])
   const [wrongLetters, setWrongLetters] = useState([])
   const [showNotification, setShowNotification] = useState(false)
+  const [isWinner, setIsWinner] = useState(false)
+  const [isGameOver, setIsGameOver] = useState(false)
+  const [selectedWord, setSelectedWord] = useState(words[Math.floor(Math.random() * words.length)])
   
   useEffect(() => {
 
+    if (selectedWord.split('').every(letter => correctLetters.includes(letter))) {
+      setIsWinner(true)
+    }
+
+    if (wrongLetters.length === 10) {
+      setIsGameOver(true)
+    }
+
     function handleKeyDown(event) {
+      if (!isGameOver && !isWinner)
+      {
       const { key, keyCode } = event
       if (keyCode >= 65 && keyCode <= 90) {
         const letter = key.toLowerCase()
@@ -51,11 +63,19 @@ export default function App() {
         }
       }
     }
-    
+  }
     window.addEventListener('keydown', handleKeyDown)
     
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [correctLetters, wrongLetters])
+  }, [correctLetters, wrongLetters, selectedWord, isGameOver, isWinner])
+
+  function playAgain() {
+    setIsGameOver(false)
+    setIsWinner(false)
+    setCorrectLetters([])
+    setWrongLetters([])
+    setSelectedWord(words[Math.floor(Math.random() * words.length)])
+  }
 
   return (
     <>
@@ -63,8 +83,9 @@ export default function App() {
       <div className='game-container'>
         <Figure wrongLetters={wrongLetters}/>
         <WrongLetters wrongLetters={wrongLetters}/>
-        <Word selectedWord={selectedWord} correctLetters={correctLetters}/>
+        <Word selectedWord={selectedWord} correctLetters={correctLetters} isGameOver={isGameOver}/>
         <SameLetter showNotification={showNotification}/>
+        <Popup isWinner={isWinner} isGameOver={isGameOver} onPlayAgain={playAgain}/>
       </div>
     </>
   );
