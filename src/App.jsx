@@ -39,7 +39,7 @@ export default function App() {
         const letter = key.toLowerCase()
         if (selectedWord.includes(letter)) {
           setCorrectLetters(currentLetters => [...currentLetters, letter])
-        } else {
+        } else if (!wrongLetters.includes(letter)) {
           setWrongLetters(currentLetters => [...currentLetters, letter])
         }
       }
@@ -48,14 +48,14 @@ export default function App() {
     window.addEventListener('keydown', handleKeyDown)
     
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [correctLetters])
+  }, [correctLetters, wrongLetters])
 
   return (
     <>
       <Header />
       <div className='game-container'>
         <Figure wrongLetters={wrongLetters}/>
-        <WrongLetters />
+        <WrongLetters wrongLetters={wrongLetters}/>
         <Word selectedWord={selectedWord} correctLetters={correctLetters}/>
       </div>
     </>

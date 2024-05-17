@@ -1,13 +1,13 @@
 export default function Word({ selectedWord, correctLetters }) {
     return (
-        <div class="word" id="word">
-            <p>{selectedWord.split("").map((letter) => {
-                if (correctLetters.includes(letter)) {
-                    return letter
-                } else {
-                    return "_"
-                }
-            })}</p>
+        <div className="word">
+          {selectedWord.split('').map((letter, i) => {
+            return (
+              <span className="letter" key={i}>
+                {correctLetters.includes(letter) ? letter : ''}
+              </span>
+            )
+          })}
         </div>
-    )
+      )
 }
