@@ -115,3 +115,23 @@
   .popup button:hover {
     background: #218838;
   }
+
+  .streak-container {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background-color: #fff;
+    color: #333;
+    padding: 10px 20px;
+    border: 2px solid #333;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-size: 18px;
+    font-weight: bold;
+    z-index: 1000;
+  }
+  
+  .streak-container h3 {
+    margin: 0;
+  }
+  

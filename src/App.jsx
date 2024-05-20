@@ -6,6 +6,7 @@ import Word from './components/Word';
 import WrongLetters from './components/WrongLetters';
 import SameLetter from './components/SameLetter';
 import Popup from './components/Popup';
+import Streak from './components/Streak';
 
 const words = [
   "damask", "prognosticate", "acquisitive", "zeitgeber", "gratuitous", "signet", "absolve", "fissile", "MacGuffin", "callous",
@@ -34,16 +35,21 @@ export default function App() {
   const [isWinner, setIsWinner] = useState(false)
   const [isGameOver, setIsGameOver] = useState(false)
   const [selectedWord, setSelectedWord] = useState(words[Math.floor(Math.random() * words.length)])
-  
-  useEffect(() => {
+  const [wins, setWins] = useState(0)
 
-    if (selectedWord.split('').every(letter => correctLetters.includes(letter))) {
-      setIsWinner(true)
+  useEffect(() => {
+    if (!isWinner && selectedWord.split('').every(letter => correctLetters.includes(letter))) {
+      setIsWinner(true);
+      setWins(prevWins => prevWins + 1);
     }
 
     if (wrongLetters.length === 10) {
-      setIsGameOver(true)
+      setIsGameOver(true);
+      setWins(0);
     }
+  }, [correctLetters, wrongLetters, selectedWord, isWinner]);
+
+  useEffect(() => {
 
     function handleKeyDown(event) {
       if (!isGameOver && !isWinner)
@@ -67,7 +73,7 @@ export default function App() {
     window.addEventListener('keydown', handleKeyDown)
     
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [correctLetters, wrongLetters, selectedWord, isGameOver, isWinner])
+  }, [correctLetters, wrongLetters, selectedWord, isGameOver, isWinner]) 
 
   function playAgain() {
     setIsGameOver(false)
@@ -80,6 +86,7 @@ export default function App() {
   return (
     <>
       <Header />
+      <Streak wins={wins}/>
       <div className='game-container'>
         <Figure wrongLetters={wrongLetters}/>
         <WrongLetters wrongLetters={wrongLetters}/>
