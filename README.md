@@ -25,7 +25,7 @@ To run this project locally, follow these steps:
 
 1. Clone the repository:
    ```sh
-   git clone [https://github.com/Onion1994/hangman](https://github.com/Onion1994/hangman.git)
+   git clone https://github.com/Onion1994/hangman.git
 2. Navigate to the project directory:
    ```sh
    cd hangman
